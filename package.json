@@ -1,0 +1,13 @@
+{
+  "name": "NotchadeBackendApp",
+  "version": "1.0.0",
+  "description": "Backend Application that runs the NotchadeApi - using Docker, NodeJs with KOA, deployed online with Heroku",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Elekk",
+  "license": "ISC"
+}
