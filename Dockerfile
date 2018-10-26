@@ -21,7 +21,7 @@ RUN npm install -g nodemon
 RUN npm install
 
 # Expose port from container so host can access 3000
-EXPOSE $PORT
+EXPOSE 3000
 
 # Start the Node.js app on load
 CMD [ "npm", "start" ]
