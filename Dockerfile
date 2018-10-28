@@ -17,7 +17,10 @@ COPY . .
 # Install nodemon globally
 RUN npm install -g nodemon
 
-# Install dependencies (if any) in package.json
+# delete existing modules and re-install dependencies
+COPY package.json /home/node/app/package.json
+COPY package.lock /home/node/app/package.lock
+RUN rm -rf node_modules
 RUN npm install
 
 # Expose port from container so host can access 3000
