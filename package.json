@@ -13,7 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "koa": "^2.6.1",
-    "koa-router": "^8.0.0-alpha.1"
+    "koa-mysql": "^1.0.3",
+    "koa-router": "^8.0.0-alpha.1",
+    "mysql": "^2.16.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
