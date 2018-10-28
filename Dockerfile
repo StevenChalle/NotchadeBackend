@@ -19,7 +19,6 @@ RUN npm install -g nodemon
 
 # delete existing modules and re-install dependencies
 COPY package.json /home/node/app/package.json
-COPY package.lock /home/node/app/package.lock
 RUN rm -rf node_modules
 RUN npm install
 
