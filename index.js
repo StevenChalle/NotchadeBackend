@@ -1,41 +1,52 @@
 const express = require('express')
 const app = express()
-var router = express.Router()
+const router = express.Router()
 const mysql = require('mysql');
 const port = process.env.PORT || 3000
 import {} from 'dotenv/config';
 
-const {getIndex} = require('../routes/index')
+const { getIndex } = require('../routes/index')
 
-// create connection to database
-// the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const db = mysql.createConnection ({
+// connect to the database
+global.mysqlClient = mysql.createConnection ({
     host: process.env.DB_HOST,
-    //port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE
-});
+})
+handleDisconnect(mysqlClient)
 
-// connect to database
-db.connect((err) => {
-    if (err) {
-        throw err;
+function handleDisconnect(client) {
+  client.on('error', (error) => {
+    if (!error.fatal) return;
+    if (error.code !== 'PROTOCOL_CONNECTION_LOST') throw err;
+
+    console.error('> Re-connecting lost MySQL connection: ' + error.stack);
+
+    mysqlClient = mysql.createConnection(client.config);
+    handleDisconnect(mysqlClient);
+    mysqlClient.connect();
+  })
+}
+
+//addUser route
+app.get('/addUser', function(req, res, next) {
+    console.log("route addUser called")
+    try {
+      let query = `SELECT * FROM users`
+      mysqlClient.query(query, (err, result) => {
+        if (err) {
+          console.log("fail query")
+          throw err
+        }
+        res.send(JSON.stringify({"status": 200, "error": null, "response": result[0].pseudo.toString()}));
+      })
+    } catch (e) {
+      console.log(e)
     }
-    console.log('Connected to database');
-});
-global.db = db;
-
-app.get('/', function(req, res, next) {
-    let query = "SELECT * FROM `users`";
-    // execute query
-    db.query(query, (err, result) => {
-      res.send(JSON.stringify({"status": 200, "error": null, "response": result[0].pseudo.toString()}));
-    })
 	});
 
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
-//app.listen(port, () => console.log(`Example app listening on port ${port}!`))
