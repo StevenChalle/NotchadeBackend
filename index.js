@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 var router = express.Router()
 const mysql = require('mysql');
-const port = process.env.DB_PORT || 3000
+const port = process.env.PORT || 3000
 import {} from 'dotenv/config';
 
 const {getIndex} = require('../routes/index')

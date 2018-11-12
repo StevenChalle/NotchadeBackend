@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var mysql = require('mysql');
-var port = process.env.DB_PORT || 3000;
+var port = process.env.DB_PORT || 4000;
 
 var _require = require('../routes/index'),
     getIndex = _require.getIndex;
