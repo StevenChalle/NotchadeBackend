@@ -3,48 +3,21 @@ const app = express()
 const router = express.Router()
 const mysql = require('mysql');
 const port = process.env.PORT || 3000
-import {} from 'dotenv/config';
+const bodyParser = require('body-parser');
 
-const { getIndex } = require('../routes/index')
-
-// connect to the database
-global.mysqlClient = mysql.createConnection ({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-})
+//connect to database
+const { getSqlClient, handleDisconnect } = require('../dbConnection')
+global.mysqlClient = getSqlClient()
 handleDisconnect(mysqlClient)
 
-function handleDisconnect(client) {
-  client.on('error', (error) => {
-    if (!error.fatal) return;
-    if (error.code !== 'PROTOCOL_CONNECTION_LOST') throw err;
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-    console.error('> Re-connecting lost MySQL connection: ' + error.stack);
-
-    mysqlClient = mysql.createConnection(client.config);
-    handleDisconnect(mysqlClient);
-    mysqlClient.connect();
-  })
-}
-
-//addUser route
-app.get('/addUser', function(req, res, next) {
-    console.log("route addUser called")
-    try {
-      let query = `SELECT * FROM users`
-      mysqlClient.query(query, (err, result) => {
-        if (err) {
-          console.log("fail query")
-          throw err
-        }
-        res.send(JSON.stringify({"status": 200, "error": null, "response": result[0].pseudo.toString()}));
-      })
-    } catch (e) {
-      console.log(e)
-    }
-	});
+//adding routes
+const { getUsers } = require('../routes/users/get')
+const { addUser } = require('../routes/users/add')
+app.get('/getUsers', getUsers);
+app.post('/addUser', addUser);
 
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, () => {

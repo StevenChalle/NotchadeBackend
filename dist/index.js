@@ -1,58 +1,36 @@
 'use strict';
 
-require('dotenv/config');
-
 var express = require('express');
 var app = express();
 var router = express.Router();
 var mysql = require('mysql');
 var port = process.env.PORT || 3000;
+var bodyParser = require('body-parser');
 
-var _require = require('../routes/index'),
-    getIndex = _require.getIndex;
+//connect to database
 
-// connect to the database
+var _require = require('../dbConnection'),
+    getSqlClient = _require.getSqlClient,
+    handleDisconnect = _require.handleDisconnect;
 
-
-global.mysqlClient = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE
-});
+global.mysqlClient = getSqlClient();
 handleDisconnect(mysqlClient);
 
-function handleDisconnect(client) {
-  client.on('error', function (error) {
-    if (!error.fatal) return;
-    if (error.code !== 'PROTOCOL_CONNECTION_LOST') throw err;
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-    console.error('> Re-connecting lost MySQL connection: ' + error.stack);
+//adding routes
 
-    mysqlClient = mysql.createConnection(client.config);
-    handleDisconnect(mysqlClient);
-    mysqlClient.connect();
-  });
-}
+var _require2 = require('../routes/users/get'),
+    getUsers = _require2.getUsers;
 
-//addUser route
-app.get('/addUser', function (req, res, next) {
-  console.log("route addUser called");
-  try {
-    var query = 'SELECT * FROM users';
-    mysqlClient.query(query, function (err, result) {
-      if (err) {
-        console.log("fail query");
-        throw err;
-      }
-      res.send(JSON.stringify({ "status": 200, "error": null, "response": result[0].pseudo.toString() }));
-    });
-  } catch (e) {
-    console.log(e);
-  }
-});
+var _require3 = require('../routes/users/add'),
+    addUser = _require3.addUser;
+
+app.get('/getUsers', getUsers);
+app.post('/addUser', addUser);
 
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, function () {
-  console.log('Server running on port: ' + port);
+    console.log('Server running on port: ' + port);
 });
