@@ -5,7 +5,6 @@ var app = express();
 var router = express.Router();
 var mysql = require('mysql');
 var port = process.env.PORT || 3000;
-var bodyParser = require('body-parser');
 
 //connect to database
 
@@ -16,8 +15,14 @@ var _require = require('../dbConnection'),
 global.mysqlClient = getSqlClient();
 handleDisconnect(mysqlClient);
 
+//add support for json parameters
+var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+//allow cross origin requests
+var cors = require('cors');
+app.use(cors());
 
 //adding routes
 
@@ -27,10 +32,14 @@ var _require2 = require('../routes/users/get'),
 var _require3 = require('../routes/users/add'),
     addUser = _require3.addUser;
 
+var _require4 = require('../routes/users/check'),
+    checkUserExist = _require4.checkUserExist;
+
 app.get('/getUsers', getUsers);
 app.post('/addUser', addUser);
+app.post('/checkUserExist', checkUserExist);
 
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, function () {
-    console.log('Server running on port: ' + port);
+  console.log('Server running on port: ' + port);
 });
