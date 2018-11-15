@@ -35,9 +35,13 @@ var _require3 = require('../routes/users/add'),
 var _require4 = require('../routes/users/check'),
     checkUserExist = _require4.checkUserExist;
 
+var _require5 = require('../routes/topics/get'),
+    getTopics = _require5.getTopics;
+
 app.get('/getUsers', getUsers);
 app.post('/addUser', addUser);
 app.post('/checkUserExist', checkUserExist);
+app.get('/getTopics', getTopics);
 
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, function () {

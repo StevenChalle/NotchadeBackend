@@ -22,9 +22,11 @@ app.use(cors())
 const { getUsers } = require('../routes/users/get')
 const { addUser } = require('../routes/users/add')
 const { checkUserExist } = require('../routes/users/check')
+const { getTopics } = require('../routes/topics/get')
 app.get('/getUsers', getUsers);
 app.post('/addUser', addUser);
 app.post('/checkUserExist', checkUserExist);
+app.get('/getTopics', getTopics);
 
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, () => { console.log(`Server running on port: ${port}`) });

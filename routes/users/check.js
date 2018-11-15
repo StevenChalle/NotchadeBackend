@@ -3,7 +3,7 @@ module.exports = {
 
     //route to check if user exists, before accepting connection
     checkUserExist: (req, res, next) => {
-      console.log("route checkUserExists called")
+      console.log("route checkUserExist called")
 
       //search for user with same email and password
       let query = `select * from users
