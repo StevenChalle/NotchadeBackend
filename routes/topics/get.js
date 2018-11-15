@@ -11,9 +11,9 @@ module.exports = {
           resolve(result)
         })
       }).then((resolve) => {
-        res.send(JSON.stringify({"status": 200, "error": false, "response": resolve}))
+        return res.send(JSON.stringify({"status": 200, "error": false, "response": resolve}))
       }).catch((reject) => {
-        res.send(JSON.stringify({
+        return res.send(JSON.stringify({
           "status": 500,
           "error": true,
           "response": `Internal Server Error`

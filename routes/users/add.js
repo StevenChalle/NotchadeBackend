@@ -1,9 +1,12 @@
 
 module.exports = {
 
-    //route to add user in database
     addUser: (req, res, next) => {
       console.log("route addUser called")
+
+      //checking params
+      if (!req.body.pseudo || !req.body.email)
+        return res.send(JSON.stringify({"status": 422, "error": true, "response": "Bad Parameter : route must receive a string as pseudo and another as email"}))
 
       //search for user with same credentials than the new ones
       let query = `SELECT * FROM users
@@ -20,17 +23,17 @@ module.exports = {
           mysqlClient.query(query, (err, result) => {
             if (err) reject("SqlError")
             else //adding user worked, returning 200
-              res.send(JSON.stringify({"status": 200, "error": false, "response": `Done`}))
+              return res.send(JSON.stringify({"status": 200, "error": false, "response": `Done`}))
           })
         } else { //else, return conflict message
-          res.send(JSON.stringify({
+          return res.send(JSON.stringify({
             "status": 409,
             "error": true,
             "response": `Conflict : pseudo or email address already exist.`
           }))
         }
       }).catch((reject) => {
-        res.send(JSON.stringify({
+        return res.send(JSON.stringify({
           "status": 500,
           "error": true,
           "response": `Internal Server Error`
