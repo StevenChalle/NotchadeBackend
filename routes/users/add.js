@@ -13,7 +13,7 @@ module.exports = {
       WHERE pseudo = '${req.body.pseudo}' OR email = '${req.body.email}'`
       new Promise((resolve, reject) => {
           mysqlClient.query(query, (err, result) => {
-            if (err) reject("SqlError")
+            if (err) throw err
             resolve(result)
         })
       }).then((resolve) => {
@@ -21,7 +21,7 @@ module.exports = {
           query = `INSERT INTO users (pseudo, email, password)
           VALUES ('${req.body.pseudo}', '${req.body.email}', '${req.body.password}')`
           mysqlClient.query(query, (err, result) => {
-            if (err) reject("SqlError")
+            if (err) throw err
             else //adding user worked, returning 200
               return res.send(JSON.stringify({"status": 200, "error": false, "response": `Done`}))
           })

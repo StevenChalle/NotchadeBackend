@@ -58,6 +58,14 @@ module.exports = {
         "id_receiver": id_receiver
       }
       -> insert message in db
+      -> returns {"status": 200, "error": false, "response": "Done"}
+
+      8) post /deleteMessage
+      -> params {
+        "id_msg": id_msg,
+        "id_author": id_author
+      }
+      -> checks if the message id and the id_author given match. if they do, delete the message
       -> returns {"status": 200, "error": false, "response": "Done"}`
       return res.send(JSON.stringify({
         "status": 200,

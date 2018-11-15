@@ -28,6 +28,7 @@ const { checkUserExist } = require('../routes/users/check')
 const { getTopics } = require('../routes/topics/get')
 const { addTopicMessage, addPersonnalMessage } = require('../routes/messages/add')
 const { getTopicMessages, getPersonnalMessages } = require('../routes/messages/get')
+const { deleteMessage } = require('../routes/messages/delete')
 app.get('/getUsers', getUsers)
 app.post('/addUser', addUser)
 app.post('/checkUserExist', checkUserExist)
@@ -36,6 +37,7 @@ app.post('/addTopicMessage', addTopicMessage)
 app.post('/addPersonnalMessage', addPersonnalMessage)
 app.post('/getTopicMessages', getTopicMessages)
 app.post('/getPersonnalMessages', getPersonnalMessages)
+app.post('/deleteMessage', deleteMessage)
 
 //launch server
 app.set('port', process.env.port || port); // set express to use this port
