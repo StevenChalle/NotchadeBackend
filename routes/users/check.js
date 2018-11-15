@@ -11,7 +11,7 @@ module.exports = {
 
       //search for user with same email and password
       let query = `SELECT * FROM users
-      WHERE email = '${req.body.email}' AND password ='${req.body.password}'`
+      WHERE email = '${req.body.email}' AND password ='${req.body.password}' AND has_signed_out = false`
       new Promise((resolve, reject) => {
           mysqlClient.query(query, (err, result) => {
             if (err) throw err

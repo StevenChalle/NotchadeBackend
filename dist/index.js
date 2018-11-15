@@ -41,29 +41,33 @@ var _require4 = require('../routes/users/add'),
 var _require5 = require('../routes/users/check'),
     checkUserExist = _require5.checkUserExist;
 
-var _require6 = require('../routes/topics/get'),
-    getTopics = _require6.getTopics;
+var _require6 = require('../routes/users/unsub'),
+    unsubUser = _require6.unsubUser;
 
-var _require7 = require('../routes/messages/add'),
-    addTopicMessage = _require7.addTopicMessage,
-    addPersonnalMessage = _require7.addPersonnalMessage;
+var _require7 = require('../routes/topics/get'),
+    getTopics = _require7.getTopics;
 
-var _require8 = require('../routes/messages/get'),
-    getTopicMessages = _require8.getTopicMessages,
-    getPersonnalMessages = _require8.getPersonnalMessages;
+var _require8 = require('../routes/messages/add'),
+    addTopicMessage = _require8.addTopicMessage,
+    addPersonnalMessage = _require8.addPersonnalMessage;
 
-var _require9 = require('../routes/messages/delete'),
-    deleteMessage = _require9.deleteMessage;
+var _require9 = require('../routes/messages/get'),
+    getTopicMessages = _require9.getTopicMessages,
+    getPersonnalMessages = _require9.getPersonnalMessages;
 
-app.get('/getUsers', getUsers);
-app.post('/addUser', addUser);
-app.post('/checkUserExist', checkUserExist);
-app.get('/getTopics', getTopics);
-app.post('/addTopicMessage', addTopicMessage);
-app.post('/addPersonnalMessage', addPersonnalMessage);
-app.post('/getTopicMessages', getTopicMessages);
-app.post('/getPersonnalMessages', getPersonnalMessages);
-app.post('/deleteMessage', deleteMessage);
+var _require10 = require('../routes/messages/delete'),
+    deleteMessage = _require10.deleteMessage;
+
+app.get('/users/get', getUsers);
+app.post('/users/add', addUser);
+app.post('/users/checkExist', checkUserExist);
+app.post('/users/unsub', unsubUser);
+app.get('/topics/get', getTopics);
+app.post('/messages/addTopicMessage', addTopicMessage);
+app.post('/messages/addPersonnalMessage', addPersonnalMessage);
+app.post('/messages/getTopicMessages', getTopicMessages);
+app.post('/messages/getPersonnalMessages', getPersonnalMessages);
+app.post('/messages/delete', deleteMessage);
 
 //launch server
 app.set('port', process.env.port || port); // set express to use this port

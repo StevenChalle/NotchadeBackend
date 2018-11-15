@@ -5,7 +5,12 @@ module.exports = {
       let docString = `
       API DOCUMENTATION =>
 
-      1) post /addUser
+      1) get /users/get
+      -> no params
+      -> return list of users still subscribed
+      -> returns {"status": 200, "error": false, "response": queryResult}
+
+      2) post /users/add
       -> params : {
         "pseudo": user_pseudo,
         "email": user_email,
@@ -14,7 +19,7 @@ module.exports = {
       -> If user credentials does not exist in db, adds the new user to db. Can return conflict error if pseudo or email already exist.
       -> returns case success : {"status": 200, "error": false, "response": "Done"}
 
-      2) post /checkUserExist
+      3) post /users/checkExist
       -> params : {
         "email": user_email,
         "password": user_password
@@ -22,19 +27,27 @@ module.exports = {
       -> If user credentials exists in db return true, else false
       -> returns case user exists : {"status": 200, "error": false, "response": {"userExist": true}}
 
-      3) get /getTopics
+      4) post /users/unsub
+      -> params : {
+        "email": user_email,
+        "password": user_password
+      }
+      -> unsubscribe user on platform
+      -> returns {"status": 200, "error": false, "response": "Done"}
+
+      5) get /topics/get
       -> no parameters
       -> returns all topics in table
       -> returns {"status": 200, "error": false, "response": queryResult}
 
-      4) post /getTopicMessages
+      6) post /messages/getTopicMessage
       -> params : {
         "id_topic": id_topic
       }
       -> returns all messages sent to a specific topic
       -> returns {"status": 200, "error": false, "response": queryResult}
 
-      5) post /getPersonnalMessages
+      7) post /messages/getPersonnalMessages
       -> params : {
         "id_author": id_author,
         "id_receiver": id_receiver
@@ -42,7 +55,7 @@ module.exports = {
       -> result is identic if you swap the id in the params between author and receiver
       -> returns {"status": 200, "error": false, "response": queryResult}
 
-      6) post /addTopicMessage
+      8) post /messages/addTopicMessage
       -> params : {
         "msg" : user_msg,
         "id_author": user_id,
@@ -51,7 +64,7 @@ module.exports = {
       -> inserts msg in db
       -> returns {"status": 200, "error": false, "response": "Done"}
 
-      7) post /addPersonnalMessage
+      9) post /messages/addPersonnalMessage
       -> params {
         "msg": user_msg,
         "id_author": id_author,
@@ -60,7 +73,7 @@ module.exports = {
       -> insert message in db
       -> returns {"status": 200, "error": false, "response": "Done"}
 
-      8) post /deleteMessage
+      10) post /messages/delete
       -> params {
         "id_msg": id_msg,
         "id_author": id_author

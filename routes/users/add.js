@@ -10,7 +10,8 @@ module.exports = {
 
       //search for user with same credentials than the new ones
       let query = `SELECT * FROM users
-      WHERE pseudo = '${req.body.pseudo}' OR email = '${req.body.email}'`
+      WHERE pseudo = '${req.body.pseudo}' AND has_signed_out = false
+      OR email = '${req.body.email}' AND has_signed_out = false`
       new Promise((resolve, reject) => {
           mysqlClient.query(query, (err, result) => {
             if (err) throw err
