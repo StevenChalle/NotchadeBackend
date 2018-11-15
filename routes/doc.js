@@ -60,8 +60,8 @@ module.exports = {
       -> insert message in db
       -> returns {"status": 200, "error": false, "response": "Done"}`
       return res.send(JSON.stringify({
-        "status": 422,
-        "error": true,
+        "status": 200,
+        "error": false,
         "response": docString
       }))
     }
