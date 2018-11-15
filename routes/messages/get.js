@@ -3,6 +3,7 @@ module.exports = {
 
   getTopicMessages: (req, res, next) => {
     console.log("route getTopicMessages called")
+
     //checking params
     if (!req.body.id_topic)
       return res.send(JSON.stringify({"status": 422, "error": true, "response": "Bad Parameter : route must receive only a number as id_topic"}))
