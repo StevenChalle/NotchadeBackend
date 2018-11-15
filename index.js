@@ -18,21 +18,25 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 const cors = require('cors')
 app.use(cors())
 
+//adding doc
+const { getDoc } = require('../routes/doc')
+app.get('/getDoc', getDoc)
 //adding routes
 const { getUsers } = require('../routes/users/get')
 const { addUser } = require('../routes/users/add')
 const { checkUserExist } = require('../routes/users/check')
 const { getTopics } = require('../routes/topics/get')
 const { addTopicMessage, addPersonnalMessage } = require('../routes/messages/add')
-const { getTopicMessages } = require('../routes/messages/get')
-app.get('/getUsers', getUsers);
-app.post('/addUser', addUser);
-app.post('/checkUserExist', checkUserExist);
-app.get('/getTopics', getTopics);
-app.post('/addTopicMessage', addTopicMessage);
-app.post('/addPersonnalMessage', addPersonnalMessage);
-app.post('/getTopicMessages', getTopicMessages);
+const { getTopicMessages, getPersonnalMessages } = require('../routes/messages/get')
+app.get('/getUsers', getUsers)
+app.post('/addUser', addUser)
+app.post('/checkUserExist', checkUserExist)
+app.get('/getTopics', getTopics)
+app.post('/addTopicMessage', addTopicMessage)
+app.post('/addPersonnalMessage', addPersonnalMessage)
+app.post('/getTopicMessages', getTopicMessages)
+app.post('/getPersonnalMessages', getPersonnalMessages)
 
 //launch server
 app.set('port', process.env.port || port); // set express to use this port
-app.listen(port, () => { console.log(`Server running on port: ${port}`) });
+app.listen(port, () => { console.log(`Server running on port: ${port}`) })

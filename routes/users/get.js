@@ -5,9 +5,19 @@ module.exports = {
       console.log("route getUsers called")
 
       let query = `SELECT * FROM users`
-      mysqlClient.query(query, (err, result) => {
-        if (err) throw err
-        res.send(JSON.stringify({"status": 200, "error": false, "response": result}));
+      new Promise((resolve, reject) => {
+        mysqlClient.query(query, (err, result) => {
+          if (err) throw err
+          resolve(result)
+        })
+      }).then((resolve) => {
+        return res.send(JSON.stringify({"status": 200, "error": false, "response": resolve}))
+      }).catch((reject) => {
+        return res.send(JSON.stringify({
+          "status": 500,
+          "error": true,
+          "response": `Internal Server Error`
+        }))
       })
     }
 }

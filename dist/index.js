@@ -24,26 +24,33 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 var cors = require('cors');
 app.use(cors());
 
+//adding doc
+
+var _require2 = require('../routes/doc'),
+    getDoc = _require2.getDoc;
+
+app.get('/getDoc', getDoc);
 //adding routes
 
-var _require2 = require('../routes/users/get'),
-    getUsers = _require2.getUsers;
+var _require3 = require('../routes/users/get'),
+    getUsers = _require3.getUsers;
 
-var _require3 = require('../routes/users/add'),
-    addUser = _require3.addUser;
+var _require4 = require('../routes/users/add'),
+    addUser = _require4.addUser;
 
-var _require4 = require('../routes/users/check'),
-    checkUserExist = _require4.checkUserExist;
+var _require5 = require('../routes/users/check'),
+    checkUserExist = _require5.checkUserExist;
 
-var _require5 = require('../routes/topics/get'),
-    getTopics = _require5.getTopics;
+var _require6 = require('../routes/topics/get'),
+    getTopics = _require6.getTopics;
 
-var _require6 = require('../routes/messages/add'),
-    addTopicMessage = _require6.addTopicMessage,
-    addPersonnalMessage = _require6.addPersonnalMessage;
+var _require7 = require('../routes/messages/add'),
+    addTopicMessage = _require7.addTopicMessage,
+    addPersonnalMessage = _require7.addPersonnalMessage;
 
-var _require7 = require('../routes/messages/get'),
-    getTopicMessages = _require7.getTopicMessages;
+var _require8 = require('../routes/messages/get'),
+    getTopicMessages = _require8.getTopicMessages,
+    getPersonnalMessages = _require8.getPersonnalMessages;
 
 app.get('/getUsers', getUsers);
 app.post('/addUser', addUser);
@@ -52,6 +59,7 @@ app.get('/getTopics', getTopics);
 app.post('/addTopicMessage', addTopicMessage);
 app.post('/addPersonnalMessage', addPersonnalMessage);
 app.post('/getTopicMessages', getTopicMessages);
+app.post('/getPersonnalMessages', getPersonnalMessages);
 
 //launch server
 app.set('port', process.env.port || port); // set express to use this port
