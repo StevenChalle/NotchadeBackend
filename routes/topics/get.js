@@ -5,14 +5,19 @@ module.exports = {
       console.log("route getTopics called")
 
       let query = `SELECT * FROM topics`
-      mysqlClient.query(query, (err, result) => {
-        if (err) throw err
-        res.send(JSON.stringify({"status": 200, "error": null, "response": result}));
+      new Promise((resolve, reject) => {
+        mysqlClient.query(query, (err, result) => {
+          if (err) throw err
+          resolve(result)
+        })
+      }).then((resolve) => {
+        res.send(JSON.stringify({"status": 200, "error": false, "response": resolve}))
+      }).catch((reject) => {
+        res.send(JSON.stringify({
+          "status": 500,
+          "error": true,
+          "response": `Internal Server Error`
+        }))
       })
     }
 }
-
-// result.forEach((item) => {
-//   console.log(item.name)
-//   console.log(item.description)
-// })

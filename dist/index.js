@@ -43,6 +43,7 @@ app.post('/addUser', addUser);
 app.post('/checkUserExist', checkUserExist);
 app.get('/getTopics', getTopics);
 
+//launch server
 app.set('port', process.env.port || port); // set express to use this port
 app.listen(port, function () {
   console.log('Server running on port: ' + port);

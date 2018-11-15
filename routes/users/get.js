@@ -7,7 +7,7 @@ module.exports = {
       let query = `SELECT * FROM users`
       mysqlClient.query(query, (err, result) => {
         if (err) throw err
-        res.send(JSON.stringify({"status": 200, "error": null, "response": result}));
+        res.send(JSON.stringify({"status": 200, "error": false, "response": result}));
       })
     }
 }

@@ -17,15 +17,11 @@ module.exports = {
         //by default, return false, unless if user exists, return true
         let userExist = false
         if (resolve.length > 0) userExist = true
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": { userExist }
-        }))
-      }).catch((reject) => { //if error happen with mysql or else, return 500
+        res.send(JSON.stringify({"status": 200, "error": false, "response": { userExist }}))
+      }).catch((reject) => {
         res.send(JSON.stringify({
           "status": 500,
-          "error": "MySQL Error",
+          "error": true,
           "response": `Internal Server Error`
         }))
       })
