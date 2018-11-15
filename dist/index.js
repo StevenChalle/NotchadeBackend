@@ -38,10 +38,18 @@ var _require4 = require('../routes/users/check'),
 var _require5 = require('../routes/topics/get'),
     getTopics = _require5.getTopics;
 
+var _require6 = require('../routes/messages/addToTopic'),
+    addTopicMessage = _require6.addTopicMessage;
+
+var _require7 = require('../routes/messages/addToMember'),
+    addPersonnalMessage = _require7.addPersonnalMessage;
+
 app.get('/getUsers', getUsers);
 app.post('/addUser', addUser);
 app.post('/checkUserExist', checkUserExist);
 app.get('/getTopics', getTopics);
+app.post('/addTopicMessage', addTopicMessage);
+app.post('/addPersonnalMessage', addPersonnalMessage);
 
 //launch server
 app.set('port', process.env.port || port); // set express to use this port

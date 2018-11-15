@@ -6,8 +6,8 @@ module.exports = {
       console.log("route checkUserExist called")
 
       //search for user with same email and password
-      let query = `select * from users
-      where email = '${req.body.email}' and password ='${req.body.password}'`
+      let query = `SELECT * FROM users
+      WHERE email = '${req.body.email}' AND password ='${req.body.password}'`
       new Promise((resolve, reject) => {
           mysqlClient.query(query, (err, result) => {
             if (err) reject("SqlError")

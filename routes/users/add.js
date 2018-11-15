@@ -6,8 +6,8 @@ module.exports = {
       console.log("route addUser called")
 
       //search for user with same credentials than the new ones
-      let query = `select * from users
-      where pseudo = '${req.body.pseudo}' or email = '${req.body.email}'`
+      let query = `SELECT * FROM users
+      WHERE pseudo = '${req.body.pseudo}' OR email = '${req.body.email}'`
       new Promise((resolve, reject) => {
           mysqlClient.query(query, (err, result) => {
             if (err) reject("SqlError")
@@ -15,8 +15,8 @@ module.exports = {
         })
       }).then((resolve) => {
         if (!(resolve.length > 0)) { //if no user uses these credentials, add new user to db
-          query = `insert into users (pseudo, email, password)
-          values ('${req.body.pseudo}', '${req.body.email}', '${req.body.password}')`
+          query = `INSERT INTO users (pseudo, email, password)
+          VALUES ('${req.body.pseudo}', '${req.body.email}', '${req.body.password}')`
           mysqlClient.query(query, (err, result) => {
             if (err) reject("SqlError")
             else //adding user worked, returning 200
