@@ -19,8 +19,8 @@ module.exports = {
         })
       }).then((resolve) => {
         if (!(resolve.length > 0)) { //if no user uses these credentials, add new user to db
-          query = `INSERT INTO users (pseudo, email, password)
-          VALUES ('${req.body.pseudo}', '${req.body.email}', '${req.body.password}')`
+          query = `INSERT INTO users (pseudo, email, password, has_signed_out)
+          VALUES ('${req.body.pseudo}', '${req.body.email}', '${req.body.password}', false)`
           mysqlClient.query(query, (err, result) => {
             if (err) throw err
             else //adding user worked, returning 200
