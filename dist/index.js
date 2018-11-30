@@ -65,14 +65,14 @@ var _require10 = require('../routes/messages/delete'),
 
 app.get('/users/get', getUsers);
 app.post('/users/add', expressJoi.joiValidate(schemas.addUser), addUser);
-app.post('/users/checkExist', checkUserExist);
-app.post('/users/unsub', unsubUser);
+app.post('/users/checkExist', expressJoi.joiValidate(schemas.checkUserExist), checkUserExist);
+app.post('/users/unsub', expressJoi.joiValidate(schemas.unsubUser), unsubUser);
 app.get('/topics/get', getTopics);
-app.post('/messages/addTopicMessage', addTopicMessage);
-app.post('/messages/addPersonnalMessage', addPersonnalMessage);
-app.post('/messages/getTopicMessages', getTopicMessages);
-app.post('/messages/getPersonnalMessages', getPersonnalMessages);
-app.post('/messages/delete', deleteMessage);
+app.post('/messages/addTopicMessage', expressJoi.joiValidate(schemas.addTopicMessage), addTopicMessage);
+app.post('/messages/addPersonnalMessage', expressJoi.joiValidate(schemas.addPersonnalMessage), addPersonnalMessage);
+app.post('/messages/getTopicMessages', expressJoi.joiValidate(schemas.getTopicMessages), getTopicMessages);
+app.post('/messages/getPersonnalMessages', expressJoi.joiValidate(schemas.getPersonnalMessages), getPersonnalMessages);
+app.post('/messages/delete', expressJoi.joiValidate(schemas.deleteMessage), deleteMessage);
 
 //launch server
 app.set('port', process.env.port || port); // set express to use this port

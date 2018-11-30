@@ -4,10 +4,6 @@ module.exports = {
     addUser: (req, res, next) => {
       console.log("route addUser called")
 
-      //checking params
-      if (!req.body.pseudo || !req.body.email || !req.body.password)
-        return res.send(JSON.stringify({"status": 422, "error": true, "response": "Bad Parameter : route must receive a string as pseudo, another as email, and another as password"}))
-
       //search for user with same credentials than the new ones
       let query = `SELECT * FROM users
       WHERE pseudo = '${req.body.pseudo}' AND has_signed_out = false
