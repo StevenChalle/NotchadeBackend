@@ -18,6 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 const cors = require('cors')
 app.use(cors())
 
+//require joi and get chemas
+var expressJoi = require('express-joi')
+var Joi = expressJoi.Joi
+var schemas = require('../schemas/index.js')
+
 //adding doc
 const { getDoc } = require('../routes/doc')
 app.get('/getDoc', getDoc)
@@ -31,7 +36,7 @@ const { addTopicMessage, addPersonnalMessage } = require('../routes/messages/add
 const { getTopicMessages, getPersonnalMessages } = require('../routes/messages/get')
 const { deleteMessage } = require('../routes/messages/delete')
 app.get('/users/get', getUsers)
-app.post('/users/add', addUser)
+app.post('/users/add', expressJoi.joiValidate(schemas.addUser), addUser)
 app.post('/users/checkExist', checkUserExist)
 app.post('/users/unsub', unsubUser)
 app.get('/topics/get', getTopics)

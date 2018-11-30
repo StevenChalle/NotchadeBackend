@@ -5,8 +5,8 @@ module.exports = {
       console.log("route addUser called")
 
       //checking params
-      if (!req.body.pseudo || !req.body.email)
-        return res.send(JSON.stringify({"status": 422, "error": true, "response": "Bad Parameter : route must receive a string as pseudo and another as email"}))
+      if (!req.body.pseudo || !req.body.email || !req.body.password)
+        return res.send(JSON.stringify({"status": 422, "error": true, "response": "Bad Parameter : route must receive a string as pseudo, another as email, and another as password"}))
 
       //search for user with same credentials than the new ones
       let query = `SELECT * FROM users
