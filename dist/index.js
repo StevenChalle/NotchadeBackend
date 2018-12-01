@@ -3,10 +3,14 @@
 var express = require('express');
 var app = express();
 var router = express.Router();
-var mysql = require('mysql');
 var port = process.env.PORT || 3000;
 
+//allow cross origin requests
+var cors = require('cors');
+app.use(cors());
+
 //connect to database
+var mysql = require('mysql');
 
 var _require = require('../dbConnection'),
     getSqlClient = _require.getSqlClient,
@@ -20,9 +24,13 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-//allow cross origin requests
-var cors = require('cors');
-app.use(cors());
+//add session
+var expressSession = require('express-session');
+app.use(expressSession({
+  secret: 'elekk',
+  saveUninitialized: false,
+  resave: false
+}));
 
 //require joi and get chemas
 var expressJoi = require('express-joi');
@@ -37,37 +45,35 @@ var _require2 = require('../routes/doc'),
 app.get('/getDoc', getDoc);
 //adding routes
 
-var _require3 = require('../routes/users/get'),
-    getUsers = _require3.getUsers;
+var _require3 = require('../routes/users/connection'),
+    connect = _require3.connect,
+    disconnect = _require3.disconnect;
 
 var _require4 = require('../routes/users/add'),
     addUser = _require4.addUser;
 
-var _require5 = require('../routes/users/check'),
-    checkUserExist = _require5.checkUserExist;
+var _require5 = require('../routes/users/unsub'),
+    unsubUser = _require5.unsubUser;
 
-var _require6 = require('../routes/users/unsub'),
-    unsubUser = _require6.unsubUser;
+var _require6 = require('../routes/topics/get'),
+    getTopics = _require6.getTopics;
 
-var _require7 = require('../routes/topics/get'),
-    getTopics = _require7.getTopics;
+var _require7 = require('../routes/messages/add'),
+    addTopicMessage = _require7.addTopicMessage,
+    addPersonnalMessage = _require7.addPersonnalMessage;
 
-var _require8 = require('../routes/messages/add'),
-    addTopicMessage = _require8.addTopicMessage,
-    addPersonnalMessage = _require8.addPersonnalMessage;
+var _require8 = require('../routes/messages/get'),
+    getTopicMessages = _require8.getTopicMessages,
+    getPersonnalMessages = _require8.getPersonnalMessages;
 
-var _require9 = require('../routes/messages/get'),
-    getTopicMessages = _require9.getTopicMessages,
-    getPersonnalMessages = _require9.getPersonnalMessages;
+var _require9 = require('../routes/messages/delete'),
+    deleteMessage = _require9.deleteMessage;
 
-var _require10 = require('../routes/messages/delete'),
-    deleteMessage = _require10.deleteMessage;
-
-app.get('/users/get', getUsers);
+app.post('/users/connect', expressJoi.joiValidate(schemas.connect), connect);
+app.post('/users/disconnect', expressJoi.joiValidate(schemas.disconnect), disconnect);
 app.post('/users/add', expressJoi.joiValidate(schemas.addUser), addUser);
-app.post('/users/checkExist', expressJoi.joiValidate(schemas.checkUserExist), checkUserExist);
 app.post('/users/unsub', expressJoi.joiValidate(schemas.unsubUser), unsubUser);
-app.get('/topics/get', getTopics);
+app.post('/topics/get', expressJoi.joiValidate(schemas.getTopics), getTopics);
 app.post('/messages/addTopicMessage', expressJoi.joiValidate(schemas.addTopicMessage), addTopicMessage);
 app.post('/messages/addPersonnalMessage', expressJoi.joiValidate(schemas.addPersonnalMessage), addPersonnalMessage);
 app.post('/messages/getTopicMessages', expressJoi.joiValidate(schemas.getTopicMessages), getTopicMessages);
