@@ -3,7 +3,8 @@ module.exports = {
   //route to check if user exists, before accepting connection
   connect: (req, res, next) => {
     //if sessions are null, create empty array
-    if (!req.session.users) req.session.users = new Array()
+    if (!req.session.users)
+      req.session.users = new Array()
 
     //search for user with same email and password
     let query = `SELECT * FROM users
@@ -29,6 +30,7 @@ module.exports = {
             "error": true,
             "response": "Already connected"
           }))
+
         //user exists and isn't connected yet, add to session
         userId = resolve[0].id
         req.session.users.push({
