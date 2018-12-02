@@ -23,7 +23,7 @@ RUN rm -rf node_modules
 RUN npm install
 
 # Expose port from container so host can access 3000
-EXPOSE 3000
+EXPOSE 3001
 
 # Start the Node.js app on load
 CMD [ "npm", "start" ]
