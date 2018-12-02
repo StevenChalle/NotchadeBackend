@@ -21,18 +21,22 @@ module.exports = {
       }))
 
     //user is connected, getting topic messages
-    let query = `SELECT * FROM messages WHERE id_topic = ${req.body.id_topic}`
+    let query = `SELECT messages.id, messages.msg, users.pseudo FROM messages, users Where messages.id_topic = ${req.body.id_topic} AND users.id = messages.id_author;`
     new Promise((resolve, reject) => {
       mysqlClient.query(query, (err, result) => {
         if (err) throw err
         resolve(result)
       })
     }).then((resolve) => {
-      return res.send(JSON.stringify({
-        "status": 200,
-        "error": false,
-        "response": resolve
-      }))
+      query = `SELECT description FROM topics WHERE id = ${req.body.id_topic}`
+      return mysqlClient.query(query, (err, result) => {
+        if (err) throw err
+        return res.send(JSON.stringify({
+          "status": 200,
+          "error": false,
+          "response": { resolve, result }
+        }))
+      })
     }).catch((reject) => {
       return res.send(JSON.stringify({
         "status": 500,
