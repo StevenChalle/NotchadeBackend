@@ -1,11 +1,18 @@
 const express = require('express')
 const app = express()
 const router = express.Router()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 
 //allow cross origin requests
 const cors = require('cors')
+// const corsOptions = {
+//   origin: "*",
+//   methods:['GET','POST'],
+//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   credentials: true
+// }
 app.use(cors())
+
 
 //connect to database
 const mysql = require('mysql');
@@ -23,7 +30,8 @@ const expressSession = require('express-session')
 app.use(expressSession({
   secret: 'elekk',
   saveUninitialized: false,
-  resave: false
+  resave: false,
+  cookie: { secure: true, httpOnly: false }
 }))
 
 //require joi and get chemas

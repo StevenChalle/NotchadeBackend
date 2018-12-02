@@ -2,8 +2,11 @@ module.exports = {
 
   //route to check if user exists, before accepting connection
   connect: (req, res, next) => {
+    console.log("connect called")
+
     //if sessions are null, create empty array
-    if (!req.session.users) req.session.users = new Array()
+    if (!req.session.users)
+      req.session.users = new Array()
 
     //search for user with same email and password
     let query = `SELECT * FROM users
@@ -17,6 +20,8 @@ module.exports = {
       let userId = 0
       //if user exists, create session and return true
       if (resolve.length > 0) {
+        console.log("user found")
+
         //if user already connected return error
         let userConnected = -1
         req.session.users.forEach((item, index) => {
@@ -29,6 +34,8 @@ module.exports = {
             "error": true,
             "response": "Already connected"
           }))
+        console.log("user not connected found")
+
         //user exists and isn't connected yet, add to session
         userId = resolve[0].id
         req.session.users.push({
@@ -36,6 +43,8 @@ module.exports = {
           pseudo: resolve[0].pseudo,
           email: resolve[0].email
         })
+        console.log("added in session, session users =")
+        console.log(req.session.users)
       }
       res.send(JSON.stringify({
         "status": 200,
