@@ -24,26 +24,32 @@ module.exports = {
           if (item.id == resolve[0].id)
             userConnected = index
         })
-        //user aint connected
+        userId = resolve[0].id
+        //if user aint connected
         if (userConnected == -1) {
           //user exists and isn't connected yet, add to session
-          userId = resolve[0].id
           req.session.users.push({
             id: resolve[0].id,
             pseudo: resolve[0].pseudo,
             email: resolve[0].email
           })
         }
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": false,
+          "response": {
+            userId,
+            pseudo: resolve[0].pseudo,
+            email: resolve[0].email
+          }
+        }))
+      } else {
+        res.send(JSON.stringify({
+          "status": 406,
+          "error": true,
+          "response": "Not Acceptable"
+        }))        
       }
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": false,
-        "response": {
-          userId,
-          pseudo: resolve[0].pseudo,
-          email: resolve[0].email
-        }
-      }))
     }).catch((reject) => {
       res.send(JSON.stringify({
         "status": 500,
